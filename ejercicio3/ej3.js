@@ -26,48 +26,66 @@ app.post("/productos", (req, res) => {
   res.status(201).send(items);
 });
 
-app.put("/productos/:id", (req, res) => {
-  const found = items.some((item) => item.id == req.params.id);
-  if (found) {
-    items.forEach((item) => {
-      if (item.id == req.params.id) {
-        item.nombre = req.body.nombre;
-        item.precio = req.body.precio;
-      }
-    });
-    res.send(items);
-  } else {
-    res.status(404).send("El producto que quieres actualizar no existe");
-  }
-});
+// app.put("/productos/:id", (req, res) => {
+//   const found = items.some((item) => item.id == req.params.id);
+//   if (found) {
+//     items.forEach((item) => {
+//       if (item.id == req.params.id) {
+//         item.nombre = req.body.nombre;
+//         item.precio = req.body.precio;
+//       }
+//     });
+//     res.send(items);
+//   } else {
+//     res.status(404).send("El producto que quieres actualizar no existe");
+//   }
+// });
 
-app.delete("/productos/:id", (req, res) => {
-  const found = items.some((item) => item.id == req.params.id);
-  if (found) {
-    res.send(items.filter((item) => item.id != req.params.id));
-  } else {
-    res.status(404).send("El producto que quieres eliminar no existe");
-  }
-});
-
+// app.delete("/productos/:id", (req, res) => {
+//   const found = items.some((item) => item.id == req.params.id);
+//   if (found) {
+//     res.send(items.filter((item) => item.id != req.params.id));
+//   } else {
+//     res.status(404).send("El producto que quieres eliminar no existe");
+//   }
+// });
 
 app.get("/productos/filter", (req, res) => {
-    const found = items.some((item) => (item.precio >= 50 && item.precio <= 250))
-    if (found) {
-        res.send(items.filter((item) => (item.precio >= 50 && item.precio <= 250)))
-    } else {
-        res.status(404).send("No hay ningún producto con ese precio")
-    }
-})
+  const found = items.some((item) => item.precio >= 50 && item.precio <= 250);
+  if (found) {
+    res.send(items.filter((item) => item.precio >= 50 && item.precio <= 250));
+  } else {
+    res.status(404).send("No hay ningún producto con ese precio");
+  }
+});
 
-app.get("/productos/:precio", (req, res) => {
-    const found = items.some((item) => item.precio == req.params.precio)
-    if (found) {
-        res.send(items.filter((item) => item.precio == req.params.precio))
-    } else {
-        res.status(404).send("No hay ningún producto con ese precio")
-    }
-})
+// app.get("/productos/:precio", (req, res) => {
+//     const found = items.some((item) => item.precio == req.params.precio)
+//     if (found) {
+//         res.send(items.filter((item) => item.precio == req.params.precio))
+//     } else {
+//         res.status(404).send("No hay ningún producto con ese precio")
+//     }
+// })
+
+// app.get("/productos/:id", (req, res) => {
+//   const found = items.some((item) => item.id == req.params.id);
+//   if (found) {
+//     res.send(items.filter((item) => item.id == req.params.id));
+//   } else {
+//     res.status(404).send(`El id ${req.params.id} no corresponde a ningún item`);
+//   }
+// });
+
+app.get("/productos/:nombre", (req, res) => {
+  const found = items.some((item) => item.nombre == req.params.nombre);
+  if (found) {
+    res.send(items.filter((item) => item.nombre == req.params.nombre))
+  } else {
+    res.status(404).send(`El item con el nombre "${req.params.nombre}" no corresponde a ningún item`)
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
