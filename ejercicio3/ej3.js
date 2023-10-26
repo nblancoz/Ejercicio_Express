@@ -50,15 +50,24 @@ app.delete("/productos/:id", (req, res) => {
   }
 });
 
-app.get("/productos/:precio", (req, res) => {
-    const found = items.some((item) => item.precio == req.params.price)
+
+app.get("/productos/filter", (req, res) => {
+    const found = items.some((item) => (item.precio >= 50 && item.precio <= 250))
     if (found) {
-        res.send(items.filter((item) => item.precio == req.params.price))
+        res.send(items.filter((item) => (item.precio >= 50 && item.precio <= 250)))
     } else {
         res.status(404).send("No hay ningún producto con ese precio")
     }
 })
 
+app.get("/productos/:precio", (req, res) => {
+    const found = items.some((item) => item.precio == req.params.precio)
+    if (found) {
+        res.send(items.filter((item) => item.precio == req.params.precio))
+    } else {
+        res.status(404).send("No hay ningún producto con ese precio")
+    }
+})
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
